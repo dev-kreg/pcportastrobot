@@ -183,6 +183,33 @@ RADV. It is opt-in and off by default.
   53 FPS mean (56 median), roughly neutral against the game's own upscale because
   the scene is partly CPU-bound. The launcher option stays off by default.
 
+## Native render resolution (optional, off by default)
+
+The game picks its own render resolution each frame (dynamic resolution) from
+the GPU timestamps it reads back, then upscales to the output size. On Kyty
+those timestamps make the game think it is over budget, so in Sky Garden it
+draws the main scene at 1920x1080 even with a 3840x2160 output and GPU
+headroom to spare.
+
+`ASTROHYBRID_NATIVE_RES=1` (launcher: **Graphics -> Display -> Native render
+resolution**) sets `KYTY_EOP_TIMESTAMPS=record` and
+`KYTY_GPU_TIMESTAMP_SCALE=25` (guest GPU clock stretched to 25% since each
+flip), each only if not already set. The game then measures short GPU frames
+and renders at the full output size.
+
+Sky Garden at 3840x2160 output (headless gamescope, Ryzen 7 5700X3D + RX 9070 XT,
+20 s per run, runs alternated):
+
+| | Main scene | fps | GPU busy |
+|---|---|---|---|
+| off | 1920x1080 | 28.8 / 28.8 | ~74% |
+| `ASTROHYBRID_NATIVE_RES=1` | 3840x2160 | 28.3 / 25.8 | 77-90% |
+
+The cost is about 0-3 fps because Kyty's command processor (CPU), not the
+GPU, limits the frame rate. Draw counts are unchanged. A milder scale (for
+example `KYTY_GPU_TIMESTAMP_SCALE=50`, which may land between the two sizes)
+is untested.
+
 ## What is not in the Linux build
 
 - NVIDIA DLSS Super Resolution, DLSS Frame Generation and Reflex. Those are

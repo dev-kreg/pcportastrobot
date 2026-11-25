@@ -229,6 +229,12 @@ def cmd_run(args: argparse.Namespace) -> int:
         env.setdefault("KYTY_GPU_HEIGHT", "1080")
     for name, value in args.env:
         env[name] = value
+    # ASTROHYBRID_NATIVE_RES=1: keep the game's dynamic resolution at the full output size. With
+    # record-time end-of-pipe timestamps and the guest GPU clock stretched to 25% since each flip, the
+    # game measures GPU frame times well under budget and stops scaling down (Docs/LINUX.md).
+    if env.get("ASTROHYBRID_NATIVE_RES") == "1":
+        env.setdefault("KYTY_EOP_TIMESTAMPS", "record")
+        env.setdefault("KYTY_GPU_TIMESTAMP_SCALE", "25")
     log(f"== launching {binary}" + (" (hybrid)" if args.hybrid else ""))
     # Negative niceness (higher priority) needs privileges; without them the game
     # still runs, just at the normal level.

@@ -152,6 +152,7 @@ public partial class GraphicsView : UserControl, IPageRefresh
         UltrawideBox.IsChecked = _settings.Ultrawide && ultrawideAvailable;
         VsyncBox.IsChecked = _settings.VSync;
         LowLatencyBox.IsChecked = _settings.LowLatency;
+        NativeResBox.IsChecked = _settings.NativeRes;
 
         HardwareText.Text = _backend.HardwareSummary();
 
@@ -248,6 +249,7 @@ public partial class GraphicsView : UserControl, IPageRefresh
         _settings.GpuIndex = GpuBox.SelectedIndex > 0 ? GpuBox.SelectedIndex - 1 : -1;
         _settings.VSync = VsyncBox.IsChecked == true;
         _settings.LowLatency = LowLatencyBox.IsChecked == true && LowLatencyBox.IsEnabled;
+        _settings.NativeRes = NativeResBox.IsChecked == true;
         _settings.Lighting = RayTracingBox.SelectedIndex == 1 ? 1 : 0;
         var chosen = UpscaleBox.IsEnabled && UpscaleBox.SelectedIndex > 0
             ? UpscaleBox.SelectedItem as string

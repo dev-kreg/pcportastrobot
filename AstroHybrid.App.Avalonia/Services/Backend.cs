@@ -33,6 +33,7 @@ public sealed class AppSettings
     // Graphics
     public string OverlayMode { get; set; } = "";
     public bool LowLatency { get; set; }
+    public bool NativeRes { get; set; }
 
     // Controller
     public string ControllerPref { get; set; } = "auto";
@@ -302,6 +303,12 @@ public sealed class Backend
             arguments.Add("--env");
             arguments.Add("KYTY_DRAW_PREP");
             arguments.Add("off");
+        }
+        if (settings.NativeRes)
+        {
+            arguments.Add("--env");
+            arguments.Add("ASTROHYBRID_NATIVE_RES");
+            arguments.Add("1");
         }
         if (settings.LowLatency)
         {

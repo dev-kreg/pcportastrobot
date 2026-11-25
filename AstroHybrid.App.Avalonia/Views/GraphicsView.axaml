@@ -34,6 +34,12 @@
                       IsCheckedChanged="OnCheckCommitted" />
             <TextBlock Grid.Row="7" Grid.Column="1" Classes="muted"
                        Text="Vulkan FIFO presentation when on; immediate presentation when off." />
+
+            <CheckBox Grid.Row="8" Grid.Column="1" x:Name="NativeResBox"
+                      Content="Native render resolution (disable dynamic resolution)"
+                      IsCheckedChanged="OnCheckCommitted" />
+            <TextBlock Grid.Row="9" Grid.Column="1" Classes="muted" TextWrapping="Wrap"
+                       Text="The game renders at the full output resolution instead of scaling down. Uses more GPU; on CPU-limited systems the frame rate barely changes." />
           </Grid>
         </StackPanel>
       </Border>
